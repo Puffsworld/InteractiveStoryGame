@@ -29,9 +29,34 @@
 		B5F115A92E33019000410961 /* InteractiveStoryGameUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InteractiveStoryGameUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		B5D647572E399238003652AD /* Exceptions for "InteractiveStoryGame" folder in "InteractiveStoryGameTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Common/GamePlay/Model/ChoiceModel.swift,
+				Common/GamePlay/Model/StoryModel.swift,
+				Common/GamePlay/Model/StoryNodeModel.swift,
+			);
+			target = B5F1159E2E33019000410961 /* InteractiveStoryGameTests */;
+		};
+		B5D647582E399238003652AD /* Exceptions for "InteractiveStoryGame" folder in "InteractiveStoryGameUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Common/GamePlay/Model/ChoiceModel.swift,
+				Common/GamePlay/Model/StoryModel.swift,
+				Common/GamePlay/Model/StoryNodeModel.swift,
+			);
+			target = B5F115A82E33019000410961 /* InteractiveStoryGameUITests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		B5F115902E33018E00410961 /* InteractiveStoryGame */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				B5D647572E399238003652AD /* Exceptions for "InteractiveStoryGame" folder in "InteractiveStoryGameTests" target */,
+				B5D647582E399238003652AD /* Exceptions for "InteractiveStoryGame" folder in "InteractiveStoryGameUITests" target */,
+			);
 			path = InteractiveStoryGame;
 			sourceTree = "<group>";
 		};
