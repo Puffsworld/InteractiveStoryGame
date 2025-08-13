@@ -1,0 +1,84 @@
+[
+  {
+    "id": "start",
+    "storyText": "You stand at the entrance of the jungle, map in hand. The lost treasure awaits. What will you do?",
+    "imageName": "jungle_entrance",
+    "choices": [
+      {
+        "text": "Enter the jungle",
+        "hint": "Brave the unknown",
+        "destinationID": "jungle_path"
+      },
+      {
+        "text": "Return home",
+        "hint": "Give up the quest",
+        "destinationID": "ending_giveup"
+      }
+    ],
+    "type": "standard"
+  },
+  {
+    "id": "jungle_path",
+    "storyText": "The jungle is thick and mysterious. You hear strange noises. Suddenly, you see two paths ahead.",
+    "imageName": "jungle_path",
+    "choices": [
+      {
+        "text": "Take the left path",
+        "hint": "Looks safer",
+        "destinationID": "river"
+      },
+      {
+        "text": "Take the right path",
+        "hint": "Seems risky",
+        "destinationID": "trap"
+      }
+    ],
+    "type": "standard"
+  },
+  {
+    "id": "river",
+    "storyText": "You reach a river. There's a rickety bridge and a boat tied to a tree.",
+    "imageName": "river",
+    "choices": [
+      {
+        "text": "Cross the bridge",
+        "hint": "Hope it holds",
+        "destinationID": "treasure"
+      },
+      {
+        "text": "Take the boat",
+        "hint": "Float downstream",
+        "destinationID": "ending_boat"
+      }
+    ],
+    "type": "standard"
+  },
+  {
+    "id": "trap",
+    "storyText": "You fall into a hidden trap! The adventure ends here.",
+    "imageName": "trap",
+    "choices": [],
+    "type": "ending"
+  },
+  {
+    "id": "ending_giveup",
+    "storyText": "You decide the quest is too dangerous and return home. Maybe next time!",
+    "imageName": "home",
+    "choices": [],
+    "type": "ending"
+  },
+  {
+    "id": "ending_boat",
+    "storyText": "The boat takes you far away from the treasure. The adventure ends, but you are safe.",
+    "imageName": "boat",
+    "choices": [],
+    "type": "ending"
+  },
+  {
+    "id": "treasure",
+    "storyText": "You cross the bridge and find the legendary lost treasure! Congratulations!",
+    "imageName": "treasure",
+    "choices": [],
+    "type": "ending"
+  }
+]
