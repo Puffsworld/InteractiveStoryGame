@@ -8,7 +8,7 @@
 import Foundation
 
 // Enum to specify the type of the story node
-public enum StoryNodeType {
+public enum StoryNodeType: String, Decodable {
     // Standard story node with choices leading to other nodes
     case standard
     // Ending story node that concludes the story
@@ -17,7 +17,7 @@ public enum StoryNodeType {
 
 // This model represents a StoryNode in the Interactive Story Game.
 // It contains all the information present in a story node, including the text, choices, and metadata.
-public struct StoryNodeModel: Identifiable {
+public struct StoryNodeModel: Identifiable, Decodable {
     // Unique identifier for the StoryNode
     public let id: String
     // Text content of the StoryNode
