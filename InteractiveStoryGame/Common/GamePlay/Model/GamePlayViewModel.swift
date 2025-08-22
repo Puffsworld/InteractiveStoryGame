@@ -20,13 +20,26 @@ class GamePlayViewModel: ObservableObject {
     @Published var pathHistory: [String] = []
     // The initial story ID to start the game
     let initialStoryID: String
+    // if the story is loading
+    var isLoading: Bool = false
 
-    public init(initialStoryID: String) {
+    public init(initialStoryID: String, fileName: String) {
         self.initialStoryID = initialStoryID
+        loadStoryNodes(from: fileName)
+        self.currentStoryModel =
+            stories[initialStoryID]
+    }
+    
+    public init(initalStoryID: String, stories: [String: StoryNodeModel]) {
+        self.initialStoryID = initalStoryID
+        self.stories = stories
+        self.currentStoryModel =
+            stories[initialStoryID]
     }
 
-    public func loadStoryNodes(from fileName: String) -> Void
-    {
+    // Optionally, keep loadStoryNodes for manual reloads
+    private func loadStoryNodes(from fileName: String) -> Void {
+        self.isLoading = true
         guard
             let url = Bundle.main.url(
                 forResource: fileName,
@@ -40,6 +53,7 @@ class GamePlayViewModel: ObservableObject {
         else {
             print("Failed to load or decode story nodes from \(fileName).json")
             // TODO: Handle error appropriately, maybe set a default story or show an error message
+            self.isLoading = false
             return
         }
         self.stories = Dictionary(uniqueKeysWithValues: nodes.map { ($0.id, $0) })
@@ -50,5 +64,21 @@ class GamePlayViewModel: ObservableObject {
                 storyText: "Story not found",
                 choices: []
             )
+        self.isLoading = false
+    }
+    
+    public func makeChoice(_ choice: ChoiceModel) -> Void {
+        guard let nextNode = stories[choice.destinationID] else {
+            print("Destination node not found: \(choice.destinationID)")
+            return
+        }
+        // Update the current story model to the next node
+        self.currentStoryModel = nextNode
+        // Log the choice made
+        self.storyLog.append("Chose: \(choice.text)")
+        // Update the current choices available
+        self.currentChoice = nextNode.choices
+        // Update the path history
+        self.pathHistory.append(nextNode.id)
     }
 }
