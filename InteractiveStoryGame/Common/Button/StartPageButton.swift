@@ -20,6 +20,7 @@ struct StartPageButton: View {
                 .font(.system(size: 18, weight: .medium))
                 .foregroundColor(.white)
                 .padding(EdgeInsets(top: 12, leading: 24, bottom: 12, trailing: 24))
+                .frame(maxWidth: 200)
                 .background(model.backgroundColor)
                 .cornerRadius(model.cornerRadius ?? 8)
         }

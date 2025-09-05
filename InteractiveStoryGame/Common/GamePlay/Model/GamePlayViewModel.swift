@@ -23,11 +23,13 @@ class GamePlayViewModel: ObservableObject {
     // if the story is loading
     var isLoading: Bool = false
 
-    public init(initialStoryID: String, fileName: String) {
+    public init(initialStoryID: String, fileName: String, bundle: Bundle = .main) {
         self.initialStoryID = initialStoryID
-        loadStoryNodes(from: fileName)
-        self.currentStoryModel =
-            stories[initialStoryID]
+        loadStoryNodes(from: fileName, bundle: bundle)
+        if self.stories != nil {
+            self.currentStoryModel =
+                stories[initialStoryID]
+        }
     }
     
     public init(initalStoryID: String, stories: [String: StoryNodeModel]) {
@@ -38,10 +40,10 @@ class GamePlayViewModel: ObservableObject {
     }
 
     // Optionally, keep loadStoryNodes for manual reloads
-    private func loadStoryNodes(from fileName: String) -> Void {
+    private func loadStoryNodes(from fileName: String, bundle: Bundle) -> Void {
         self.isLoading = true
         guard
-            let url = Bundle.main.url(
+            let url = bundle.url(
                 forResource: fileName,
                 withExtension: "json"
             ),
@@ -80,5 +82,12 @@ class GamePlayViewModel: ObservableObject {
         self.currentChoice = nextNode.choices
         // Update the path history
         self.pathHistory.append(nextNode.id)
+    }
+    
+    public func resetGame() -> Void {
+        self.currentStoryModel = stories[initialStoryID]
+        self.storyLog = []
+        self.currentChoice = currentStoryModel.choices
+        self.pathHistory = [initialStoryID]
     }
 }

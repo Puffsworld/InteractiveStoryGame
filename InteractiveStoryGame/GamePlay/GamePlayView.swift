@@ -22,36 +22,41 @@ struct GamePlayView: View {
     }
     
     var body: some View {
-        if viewModel.isLoading{
-            ProgressView("Loading story...")
-        } else{
-            if let node = viewModel.currentStoryModel {
-                VStack(spacing: 20) {
-                    if let imageName = node.imageName, !imageName.isEmpty {
-                        Image(imageName)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 200)
-                            .cornerRadius(10)
+        Group {
+            if viewModel.isLoading{
+                ProgressView("Loading story...")
+            } else{
+                if let node = viewModel.currentStoryModel {
+                    VStack(spacing: 20) {
+                        if let imageName = node.imageName, !imageName.isEmpty {
+                            Image(imageName)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 200)
+                                .cornerRadius(10)
+                                .padding()
+                        } // #Image
+                            
+                        Text(node.storyText)
                             .padding()
-                    } // #Image
                         
-                    Text(node.storyText)
-                        .padding()
-                    
-                    ForEach(node.choices) { choice in
-                        StoryChoiceButton(
-                            model: StoryChoiceButtonModel(
-                                text: choice.text,
-                                hint: choice.hint,
-                                action: {
-                                    viewModel.makeChoice(choice)
-                                }
+                        ForEach(node.choices) { choice in
+                            StoryChoiceButton(
+                                model: StoryChoiceButtonModel(
+                                    text: choice.text,
+                                    hint: choice.hint,
+                                    action: {
+                                        viewModel.makeChoice(choice)
+                                    }
+                                )
                             )
-                        )
-                    } // #Choice Buttons
+                        } // #Choice Buttons
+                    }
                 }
             }
+        }
+        .onAppear {
+            viewModel.resetGame()
         }
     }
 }

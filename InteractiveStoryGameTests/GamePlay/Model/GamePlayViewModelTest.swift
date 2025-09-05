@@ -18,9 +18,11 @@ class GamePlayViewModelTest: XCTestCase {
 
     override func setUp() {
         super.setUp()
+        let testBundle = Bundle(for: type(of: self))
         viewModel = GamePlayViewModel(
             initialStoryID: initialStoryID,
-            fileName: testFileName
+            fileName: testFileName,
+            bundle: testBundle
         )
     }
 
@@ -77,5 +79,28 @@ class GamePlayViewModelTest: XCTestCase {
         XCTAssertEqual(viewModel.storyLog.last, "Chose: \(firstChoice.text)", "Story log should record the choice")
         XCTAssertEqual(viewModel.currentChoice, expectedNextNode.choices, "Current choices should match the next node's choices")
         XCTAssertEqual(viewModel.pathHistory.last, expectedNextNodeID, "Path history should record the new node id")
+    }
+
+    func testResetGame() {
+        // Given: A game that has progressed past the initial state
+        guard let firstChoice = viewModel.currentStoryModel?.choices.first else {
+            XCTFail("Initial node should have choices")
+            return
+        }
+        viewModel.makeChoice(firstChoice)
+
+        // Ensure the state has changed
+        XCTAssertNotEqual(viewModel.currentStoryModel.id, initialStoryID)
+        XCTAssertFalse(viewModel.storyLog.isEmpty)
+        XCTAssertNotEqual(viewModel.pathHistory, [initialStoryID])
+
+        // When: The game is reset
+        viewModel.resetGame()
+
+        // Then: The game state should be reset to its initial condition
+        XCTAssertEqual(viewModel.currentStoryModel.id, initialStoryID, "Current story should be reset to the initial node.")
+        XCTAssertTrue(viewModel.storyLog.isEmpty, "Story log should be empty after reset.")
+        XCTAssertEqual(viewModel.pathHistory, [initialStoryID], "Path history should be reset to just the initial node ID.")
+        XCTAssertEqual(viewModel.currentChoice, viewModel.stories[initialStoryID]?.choices, "Current choices should be reset to the initial node's choices.")
     }
 }
