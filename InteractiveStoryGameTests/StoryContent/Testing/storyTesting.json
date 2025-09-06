@@ -1,84 +1,151 @@
 [
   {
-    "id": "start",
-    "storyText": "You stand at the entrance of the jungle, map in hand. The lost treasure awaits. What will you do?",
-    "imageName": "jungle_entrance",
+    "id": "132457",
+    "loggingID": "Start",
+    "type": "standard",
+    "storyText": "A deep alarm rumbles through the Aegis. The bridge is empty, save for you, the sole engineer. The ship's AI, \"Orion,\" is silent. A main system failure flickers on your terminal.",
+    "imageName": "lonely_starship_bridge",
     "choices": [
       {
-        "text": "Enter the jungle",
-        "hint": "Brave the unknown",
-        "destinationID": "jungle_path"
+        "text": "Try to reboot Orion.",
+        "destinationID": "298765",
+        "hint": "The AI might have a clue."
       },
       {
-        "text": "Return home",
-        "hint": "Give up the quest",
-        "destinationID": "ending_giveup"
+        "text": "Check the external diagnostics.",
+        "destinationID": "476890",
+        "hint": "What's happening outside the ship?"
       }
-    ],
-    "type": "standard"
+    ]
   },
   {
-    "id": "jungle_path",
-    "storyText": "The jungle is thick and mysterious. You hear strange noises. Suddenly, you see two paths ahead.",
-    "imageName": "jungle_path",
+    "id": "298765",
+    "loggingID": "Reboot_orion",
+    "type": "standard",
+    "storyText": "You initiate a hard reset on Orion. The AI's holographic avatar sputters to life, glitching. \"Anomaly… in… cargo… bay…\" it repeats, before fading out completely. The main door seals shut.",
+    "imageName": "flickering_hologram",
     "choices": [
       {
-        "text": "Take the left path",
-        "hint": "Looks safer",
-        "destinationID": "river"
+        "text": "Try to force the door open.",
+        "destinationID": "904532",
+        "hint": "A direct but risky approach."
       },
       {
-        "text": "Take the right path",
-        "hint": "Seems risky",
-        "destinationID": "trap"
+        "text": "Look for another way out.",
+        "destinationID": "812347",
+        "hint": "The maintenance plans are on your tablet."
       }
-    ],
-    "type": "standard"
+    ]
   },
   {
-    "id": "river",
-    "storyText": "You reach a river. There's a rickety bridge and a boat tied to a tree.",
-    "imageName": "river",
+    "id": "476890",
+    "loggingID": "Check_diagnostics",
+    "type": "standard",
+    "storyText": "The external diagnostics reveal the ship is adrift in a dense asteroid field. A strange energy reading pulses from the forward cargo bay. It’s not a malfunction—it’s a signal.",
+    "imageName": "asteroid_field",
     "choices": [
       {
-        "text": "Cross the bridge",
-        "hint": "Hope it holds",
-        "destinationID": "treasure"
+        "text": "Go investigate the cargo bay.",
+        "destinationID": "904532",
+        "hint": "Follow the strange signal."
       },
       {
-        "text": "Take the boat",
-        "hint": "Float downstream",
-        "destinationID": "ending_boat"
+        "text": "Reroute power to the engines.",
+        "destinationID": "537912",
+        "hint": "Priority one is getting the ship running."
       }
-    ],
-    "type": "standard"
+    ]
   },
   {
-    "id": "trap",
-    "storyText": "You fall into a hidden trap! The adventure ends here.",
-    "imageName": "trap",
-    "choices": [],
-    "type": "ending"
+    "id": "904532",
+    "loggingID": "Investigate_cargo_bay",
+    "type": "standard",
+    "storyText": "The cargo bay is dark and cold. A massive, metallic pod rests in the center. It hums with the same strange energy from your diagnostics. A faint symbol glows on its side.",
+    "imageName": "alien_pod",
+    "choices": [
+      {
+        "text": "Touch the glowing symbol.",
+        "destinationID": "785432",
+        "hint": "Trust your instincts."
+      },
+      {
+        "text": "Back away and look for a control panel.",
+        "destinationID": "609871",
+        "hint": "Search for a more logical solution."
+      }
+    ]
   },
   {
-    "id": "ending_giveup",
-    "storyText": "You decide the quest is too dangerous and return home. Maybe next time!",
-    "imageName": "home",
-    "choices": [],
-    "type": "ending"
+    "id": "812347",
+    "loggingID": "Find_another_way",
+    "type": "standard",
+    "storyText": "You find a maintenance vent behind a panel. It’s a tight squeeze, but it leads toward the main corridor. You hear a soft, rhythmic clicking from the other side.",
+    "imageName": "engineering_vents",
+    "choices": [
+      {
+        "text": "Crawl through the vent.",
+        "destinationID": "609871",
+        "hint": "A shortcut to the cargo bay."
+      },
+      {
+        "text": "Go back to the bridge and find another way.",
+        "destinationID": "537912",
+        "hint": "There must be another path."
+      }
+    ]
   },
   {
-    "id": "ending_boat",
-    "storyText": "The boat takes you far away from the treasure. The adventure ends, but you are safe.",
-    "imageName": "boat",
-    "choices": [],
-    "type": "ending"
+    "id": "537912",
+    "loggingID": "Reroute_power",
+    "type": "standard",
+    "storyText": "Sparks fly as you reroute power, but the engines roar to life. The ship lurches forward, narrowly avoiding a massive asteroid. A deep, resonant tone echoes from the cargo bay.",
+    "imageName": "engine_room_sparks",
+    "choices": [
+      {
+        "text": "Investigate the noise in the cargo bay.",
+        "destinationID": "904532",
+        "hint": "Curiosity might reveal something important."
+      },
+      {
+        "text": "Plot a course for the nearest starbase.",
+        "destinationID": "190234",
+        "hint": "Safety is the top priority."
+      }
+    ]
   },
   {
-    "id": "treasure",
-    "storyText": "You cross the bridge and find the legendary lost treasure! Congratulations!",
-    "imageName": "treasure",
-    "choices": [],
-    "type": "ending"
+    "id": "609871",
+    "loggingID": "Find_panel",
+    "type": "standard",
+    "storyText": "A control panel near the pod flickers. It shows schematics of the cargo bay. The pod is a life support unit. It has been sealed for centuries. The occupant is dormant.",
+    "imageName": "computer_terminal",
+    "choices": [
+      {
+        "text": "Open the pod.",
+        "destinationID": "785432",
+        "hint": "The schematics show it is sealed."
+      },
+      {
+        "text": "Leave the pod sealed.",
+        "destinationID": "190234",
+        "hint": "This isn't your problem to solve."
+      }
+    ]
+  },
+  {
+    "id": "785432",
+    "loggingID": "Open_pod",
+    "type": "ending",
+    "storyText": "As the pod hisses open, a being of pure light emerges. It touches your hand. You are filled with knowledge of a thousand stars, a cosmic map to a new destiny. The Aegis becomes your vessel to the unknown.",
+    "imageName": "cosmic_gaze",
+    "choices": []
+  },
+  {
+    "id": "190234",
+    "loggingID": "Leave_starship",
+    "type": "ending",
+    "storyText": "You send a distress signal and launch an escape pod. The Aegis disappears into the asteroid field, its mystery unsolved. You leave the cosmic relic behind, a small point of light fleeing a grand, unknowable truth.",
+    "imageName": "escape_pod_view",
+    "choices": []
   }
 ]

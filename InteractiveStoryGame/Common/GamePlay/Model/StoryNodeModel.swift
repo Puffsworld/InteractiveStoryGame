@@ -28,9 +28,12 @@ public struct StoryNodeModel: Identifiable, Decodable {
     public let choices: [ChoiceModel]
     // Type of the story node (standard or ending)
     public let type: StoryNodeType
+    // Human-readable identifier for logging purposes
+    public let loggingID: String
     
-    public init(id: String, storyText: String, imageName: String? = nil, choices: [ChoiceModel] = [], type: StoryNodeType = .standard) {
+    public init(id: String, loggingID: String, storyText: String, imageName: String? = nil, choices: [ChoiceModel] = [], type: StoryNodeType = .standard, ) {
         self.id = id
+        self.loggingID = loggingID
         self.storyText = storyText
         self.imageName = imageName
         self.choices = choices

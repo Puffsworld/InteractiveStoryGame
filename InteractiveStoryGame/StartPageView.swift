@@ -45,7 +45,7 @@ struct StartPageView: View {
                 )
             }
             .navigationDestination(isPresented: $isNewGameActive) {
-                GamePlayView(fileName: "storyExample", initialStoryID: "start")
+                GamePlayView(fileName: "storyExample", initialStoryID: "132457")
             }
         }
     }

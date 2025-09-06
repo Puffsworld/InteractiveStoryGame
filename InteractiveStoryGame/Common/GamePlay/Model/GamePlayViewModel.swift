@@ -63,6 +63,7 @@ class GamePlayViewModel: ObservableObject {
             stories[initialStoryID]
             ?? StoryNodeModel(
                 id: initialStoryID,
+                loggingID: "Unknown",
                 storyText: "Story not found",
                 choices: []
             )
@@ -80,8 +81,8 @@ class GamePlayViewModel: ObservableObject {
         self.storyLog.append("Chose: \(choice.text)")
         // Update the current choices available
         self.currentChoice = nextNode.choices
-        // Update the path history
-        self.pathHistory.append(nextNode.id)
+        // Update the path history with loggingID
+        self.pathHistory.append(nextNode.loggingID)
     }
     
     public func resetGame() -> Void {

@@ -55,33 +55,37 @@ struct GamePlayView: View {
                 }
             }
         }
-        .onAppear {
-            viewModel.resetGame()
-        }
+//        .onAppear {
+////            TODO: solve the issue of first time started called reset game.
+//            viewModel.resetGame()
+//        }
     }
 }
 
 #Preview {
     let mockNode = StoryNodeModel(
         id: "start",
+        loggingID: "mock_start",
         storyText: "You stand at the entrance of the jungle, map in hand. The lost treasure awaits. What will you do?",
         imageName: "jungle_entrance",
         choices: [
             ChoiceModel(text: "Enter the jungle", hint: "Brave the unknown", destinationID: "jungle_path"),
             ChoiceModel(text: "Return home", hint: "Give up the quest", destinationID: "ending_giveup")
-        ]
+        ],
+        
     )
     let mockNode2 = StoryNodeModel(
         id: "jungle_path",
+        loggingID: "mock_jungle_path",
         storyText: "You venture into the jungle, the sounds of wildlife all around you. Suddenly, you hear a rustling in the bushes.",
         imageName: "jungle_path",
         choices: [
             ChoiceModel(text: "Investigate the sound", hint: "Could be an animal", destinationID: "animal_encounter"),
             ChoiceModel(text: "Give up", hint: "Stay focused on the goal", destinationID: "start")
-        ]
+        ],
     )
     let mockViewModel =  GamePlayViewModel(initalStoryID: "start", stories: ["start": mockNode, "jungle_path": mockNode2])
-    return GamePlayView(viewModel: mockViewModel)
+    GamePlayView(viewModel: mockViewModel)
 }
 
 // Helper wrapper to inject the mock view model

@@ -9,11 +9,11 @@ import XCTest
 @testable import InteractiveStoryGame
 
 class GamePlayViewModelTest: XCTestCase {
-    let initialStoryID: String = "start"
+    let initialStoryID: String = "132457"
     var viewModel: GamePlayViewModel!
     let testFileName = "storyTesting"
-    let expectedNodeCount = 7
-    let startNodeStoryText = "You stand at the entrance of the jungle, map in hand. The lost treasure awaits. What will you do?"
+    let expectedNodeCount = 9
+    let startNodeStoryText = "A deep alarm rumbles through the Aegis. The bridge is empty, save for you, the sole engineer. The ship's AI, \"Orion,\" is silent. A main system failure flickers on your terminal."
     let startNodeChoicesCount = 2
 
     override func setUp() {
@@ -56,7 +56,7 @@ class GamePlayViewModelTest: XCTestCase {
             XCTFail("Stories should be loaded")
             return
         }
-        XCTAssertEqual(startNode.id, initialStoryID)
+        XCTAssertEqual(startNode.loggingID, "Start")
         XCTAssertFalse(startNode.choices.isEmpty, "Initial node should have choices")
 
         guard let firstChoice = startNode.choices.first else {
@@ -75,10 +75,10 @@ class GamePlayViewModelTest: XCTestCase {
             XCTFail("Current story model should not be nil after making a choice")
             return
         }
-        XCTAssertEqual(currentStoryModel.id, expectedNextNodeID, "Current node should update to the destination node")
+        XCTAssertEqual(currentStoryModel.loggingID, expectedNextNode.loggingID, "Current node should update to the destination node")
         XCTAssertEqual(viewModel.storyLog.last, "Chose: \(firstChoice.text)", "Story log should record the choice")
         XCTAssertEqual(viewModel.currentChoice, expectedNextNode.choices, "Current choices should match the next node's choices")
-        XCTAssertEqual(viewModel.pathHistory.last, expectedNextNodeID, "Path history should record the new node id")
+        XCTAssertEqual(viewModel.pathHistory.last, expectedNextNode.loggingID, "Path history should record the loggingID of the new node")
     }
 
     func testResetGame() {
