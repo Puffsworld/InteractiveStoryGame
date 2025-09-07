@@ -48,17 +48,19 @@ struct GamePlayView: View {
                             onChoiceSelected: { choice in
                                 viewModel.makeChoice(choice)
                             },
-                            resetGame: {viewModel.resetGame()},
+                            resetGame: { viewModel.resetGame() },
                             type: node.type
-                        ) // #ChoiceView
+                        )  // #ChoiceView
                     }
                 }
             }
         }
-        //        .onAppear {
-        ////            TODO: solve the issue of first time started called reset game.
-        //            viewModel.resetGame()
-        //        }
+        .onDisappear {
+            viewModel.resetGame()
+            // Debugging
+            print("GamePlayView disappeared, game reset.")
+            print("Path history of the Game play: \(viewModel.pathHistory)")
+        }
     }
 }
 

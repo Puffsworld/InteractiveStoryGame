@@ -8,6 +8,10 @@
 
 import SwiftUI
 
+// StartPageView.swift
+
+import SwiftUI
+
 struct StartPageView: View {
     @State private var isNewGameActive = false
 
