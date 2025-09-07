@@ -9,16 +9,23 @@ import SwiftUI
 
 struct ChoiceView: View {
     let choices: [ChoiceModel]
+    // Use when a choice is selected
     let onChoiceSelected: (ChoiceModel) -> Void
     let type: StoryNodeType
+    // Use when the game needs to be reset, e.g., only at the end of the story
+    let resetGame: () -> Void
+
+    @Environment(\.dismiss) var dismiss
 
     init(
         choices: [ChoiceModel],
         onChoiceSelected: @escaping (ChoiceModel) -> Void,
-        type:StoryNodeType = .standard
+        resetGame: @escaping () -> Void = {},
+        type: StoryNodeType = .standard
     ) {
         self.choices = choices
         self.onChoiceSelected = onChoiceSelected
+        self.resetGame = resetGame
         self.type = type
     }
 
@@ -39,9 +46,25 @@ struct ChoiceView: View {
                 }
             }
         case .ending:
-            // TODO: update the ending view to have a return to home button and
-            // a restart button that reset the game.
-            EmptyView() // Placeholder for ending case
+            VStack(spacing: 20) {
+
+                StartPageButton(
+                    model: StartPageButtonModel(
+                        name: "Restart Game",
+                        action: { resetGame() },
+                        cornerRadius: 10
+                    )
+                )
+
+                StartPageButton(
+                    model: StartPageButtonModel(
+                        name: "Return to Home",
+                        action: { dismiss() },
+                        cornerRadius: 10
+                    )
+                )
+            }
+            .padding()
         }
     }
 }
@@ -60,7 +83,10 @@ struct ChoiceView: View {
                 destinationID: "ending_giveup"
             ),
         ],
-        onChoiceSelected: { _ in },
-        type: .ending
+        onChoiceSelected: { choice in
+            print("Choice selected: \(choice.text)")
+        },
+        resetGame:{ print("Game reset") },
+        type: .standard
     )
 }

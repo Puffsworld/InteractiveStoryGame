@@ -48,6 +48,7 @@ struct GamePlayView: View {
                             onChoiceSelected: { choice in
                                 viewModel.makeChoice(choice)
                             },
+                            resetGame: {viewModel.resetGame()},
                             type: node.type
                         ) // #ChoiceView
                     }
