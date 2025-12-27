@@ -4,27 +4,35 @@
     "title": "The Lost Treasure",
     "synopsis": "Embark on a quest to find the legendary lost treasure hidden deep in the jungle.",
     "galleryImageName": "treasure_map",
-    "fileName": "storyTesting.json"
+    "fileName": "storyTesting.json",
+    "initialStoryID": "start",
+    "category": "Featured"
   },
   {
     "id": "story2",
     "title": "Space Rescue",
     "synopsis": "Save your crew from a stranded spaceship on the edge of the galaxy.",
     "galleryImageName": "spaceship",
-    "fileName": "story2.json"
+    "fileName": "story2.json",
+    "initialStoryID": "start",
+    "category": "Sci-Fi"
   },
   {
     "id": "story3",
     "title": "Mystery at the Manor",
     "synopsis": "Uncover the secrets hidden within the old manor and solve the mystery.",
     "galleryImageName": "manor",
-    "fileName": "story3.json"
+    "fileName": "story3.json",
+    "initialStoryID": "start",
+    "category": "Mystery"
   },
   {
     "id": "story4",
     "title": "Journey to the Underworld",
     "synopsis": "Descend into the underworld to rescue a lost soul and face mythical challenges.",
     "galleryImageName": "underworld_gate",
-    "fileName": "story4.json"
+    "fileName": "story4.json",
+    "initialStoryID": "start",
+    "category": "Fantasy"
   }
 ]
