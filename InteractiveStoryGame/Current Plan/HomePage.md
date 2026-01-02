@@ -37,6 +37,38 @@ We have successfully modernized the application's entry point, transforming the 
 ## Next Steps / TODO
 
 ### Data Persistence
-- [ ] **HomeViewModel Update**: Currently, `HomeViewModel` uses hardcoded mock data. We need to update `loadStories()` to fetch data dynamically from a JSON manifest file (e.g., `StoryManifestExample.json`).
+- [x] **HomeViewModel Update**: Currently, `HomeViewModel` uses hardcoded mock data. We need to update `loadStories()` to fetch data dynamically from a JSON manifest file (e.g., `StoryManifestExample.json`).
     - **Target File**: `InteractiveStoryGame/HomeView/ViewModel/HomeViewModel.swift`
     - **Source**: `InteractiveStoryGame/StoryContent/Testing/StoryManifestExample.json` (or main bundle equivalent).
+
+---
+
+# JSON Data Integration - Progress Report
+
+**Date**: 2026-01-01
+**Status**: Completed (Verification Passed)
+
+## Overview
+We have enabled dynamic data loading for the homepage, transitioning from hardcoded mock data to a JSON-based manifest system. This allows for easier content management and testing.
+
+## Completed Tasks
+
+### 1. Data Persistence & JSON Loading
+- **JSON Manifest Integration**:
+    - Refactored `HomeViewModel` to load stories from `StoryManifestExample.json`.
+    - Updated `StoryManifestExample.json` with required fields (`initialStoryID`, `category`) and linked to valid story content.
+    - Ensured all manifest entries point to `storyExample.json` to guarantee a playable state.
+- **Dependency Injection**:
+    - `HomeViewModel` now accepts a filename and bundle for better testability.
+
+### 2. Testing
+- **Unit Tests**:
+    - Implemented `HomeViewModelTests` to verify data loading using a test manifest (`StoriesManifestTest.json`).
+    - Verified proper parsing of `featured`, `topPick`, and `quickRead` categories.
+
+## Next Steps / TODO
+
+### Features
+- [ ] **Real Story Content**: Create distinct JSON files for different stories (currently all point to `storyExample`).
+- [ ] **Progress Persistence**: Implement saving/loading of story progress (currently not persisted).
+- [ ] **GamePlay Animation**: Implement a smooth animation when the user clicks on any choice button and move to the next scene.
