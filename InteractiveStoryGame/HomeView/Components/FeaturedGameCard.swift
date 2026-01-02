@@ -23,8 +23,9 @@ struct FeaturedGameCard: View {
             .scaledToFit()
             .frame(width: 50)
             .foregroundColor(.white.opacity(0.5))
+
         )
-        .cornerRadius(12, corners: [.topLeft, .topRight])
+        .cornerRadius(12)
 
       VStack(alignment: .leading, spacing: 12) {
         // Progress Bar
