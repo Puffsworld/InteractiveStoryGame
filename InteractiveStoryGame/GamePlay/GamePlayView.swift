@@ -8,114 +8,137 @@
 import SwiftUI
 
 struct GamePlayView: View {
-    @StateObject private var viewModel: GamePlayViewModel
+  @StateObject private var viewModel: GamePlayViewModel
 
-    // New initializer for direct injection
-    init(viewModel: GamePlayViewModel) {
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
+  // New initializer for direct injection
+  init(viewModel: GamePlayViewModel) {
+    _viewModel = StateObject(wrappedValue: viewModel)
+  }
 
-    // Existing initializer for production use
-    init(fileName: String, initialStoryID: String) {
-        let vm = GamePlayViewModel(
-            initialStoryID: initialStoryID,
-            fileName: fileName
-        )
-        _viewModel = StateObject(wrappedValue: vm)
-    }
+  // Existing initializer for production use
+  init(fileName: String, initialStoryID: String) {
+    let vm = GamePlayViewModel(
+      initialStoryID: initialStoryID,
+      fileName: fileName
+    )
+    _viewModel = StateObject(wrappedValue: vm)
+  }
 
-    var body: some View {
-        Group {
-            if viewModel.isLoading {
-                ProgressView("Loading story...")
-            } else {
-                if let node = viewModel.currentStoryModel {
-                    VStack(spacing: 20) {
-                        if let imageName = node.imageName, !imageName.isEmpty {
-                            Image(imageName)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 200)
-                                .cornerRadius(10)
-                                .padding()
-                        }  // #Image
+  var body: some View {
+    Group {
+      if viewModel.isLoading {
+        ProgressView("Loading story...")
+      } else {
+        if let node = viewModel.currentStoryModel {
+          VStack(spacing: 20) {
+            if let imageName = node.imageName, !imageName.isEmpty {
+              Image(imageName)
+                .resizable()
+                .scaledToFit()
+                .frame(height: 200)
+                .cornerRadius(10)
+                .padding()
+                // MARK: - Image Transition
+                // Cross Dissolve: 0.8s easeInOut
+                .id(node.id + "_img")
+                .transition(.opacity.animation(.easeInOut(duration: 0.8)))
+            }  // #Image
 
-                        Text(node.storyText)
-                            .padding()
+            Text(node.storyText)
+              .padding()
+              // MARK: - Text Transition
+              // Insertion: Slide Up + Fade In (0.5s duration, 0.2s delay)
+              // Removal: Instant Fade Out (0.1s duration, no delay) -> Prevents overlap
+              .id(node.id + "_txt")
+              .transition(
+                .asymmetric(
+                  insertion: .slideUpFadeIn.animation(
+                    .easeOut(duration: 0.5).delay(0.2)),
+                  removal: .opacity.animation(.easeOut(duration: 0.1))
+                )
+              )
 
-                        ChoiceView(
-                            choices: node.choices,
-                            onChoiceSelected: { choice in
-                                viewModel.makeChoice(choice)
-                            },
-                            resetGame: { viewModel.resetGame() },
-                            type: node.type
-                        )  // #ChoiceView
-                    }
+            ChoiceView(
+              choices: node.choices,
+              onChoiceSelected: { choice in
+                // Trigger animations when state changes
+                withAnimation {
+                  viewModel.makeChoice(choice)
                 }
-            }
+              },
+              resetGame: {
+                withAnimation {
+                  viewModel.resetGame()
+                }
+              },
+              type: node.type
+            )  // #ChoiceView
+          }
         }
-        .onDisappear {
-            viewModel.resetGame()
-            // Debugging
-            print("GamePlayView disappeared, game reset.")
-            print("Path history of the Game play: \(viewModel.pathHistory)")
-        }
+      }
     }
+    .onDisappear {
+      // No animation needed for disappear logic
+      viewModel.resetGame()
+      // Debugging
+      print("GamePlayView disappeared, game reset.")
+      print("Path history of the Game play: \(viewModel.pathHistory)")
+    }
+  }
 }
 
 #Preview {
-    let mockNode = StoryNodeModel(
-        id: "start",
-        loggingID: "mock_start",
-        storyText:
-            "You stand at the entrance of the jungle, map in hand. The lost treasure awaits. What will you do?",
-        imageName: "jungle_entrance",
-        choices: [
-            ChoiceModel(
-                text: "Enter the jungle",
-                hint: "Brave the unknown",
-                destinationID: "jungle_path"
-            ),
-            ChoiceModel(
-                text: "Return home",
-                hint: "Give up the quest",
-                destinationID: "ending_giveup"
-            ),
-        ],
+  let mockNode = StoryNodeModel(
+    id: "start",
+    loggingID: "mock_start",
+    storyText:
+      "You stand at the entrance of the jungle, map in hand. The lost treasure awaits. What will you do?",
+    imageName: "jungle_entrance",
+    choices: [
+      ChoiceModel(
+        text: "Enter the jungle",
+        hint: "Brave the unknown",
+        destinationID: "jungle_path"
+      ),
+      ChoiceModel(
+        text: "Return home",
+        hint: "Give up the quest",
+        destinationID: "ending_giveup"
+      ),
+    ],
 
-    )
-    let mockNode2 = StoryNodeModel(
-        id: "jungle_path",
-        loggingID: "mock_jungle_path",
-        storyText:
-            "You venture into the jungle, the sounds of wildlife all around you. Suddenly, you hear a rustling in the bushes.",
-        imageName: "jungle_path",
-        choices: [
-            ChoiceModel(
-                text: "Investigate the sound",
-                hint: "Could be an animal",
-                destinationID: "animal_encounter"
-            ),
-            ChoiceModel(
-                text: "Give up",
-                hint: "Stay focused on the goal",
-                destinationID: "start"
-            ),
-        ],
-        type: .ending
-    )
-    let mockViewModel = GamePlayViewModel(
-        initalStoryID: "start",
-        stories: ["start": mockNode, "jungle_path": mockNode2]
-    )
-    GamePlayView(viewModel: mockViewModel)
+  )
+  let mockNode2 = StoryNodeModel(
+    id: "jungle_path",
+    loggingID: "mock_jungle_path",
+    storyText:
+      "You venture into the jungle, the sounds of wildlife all around you. Suddenly, you hear a rustling in the bushes.",
+    imageName: "jungle_path",
+    choices: [
+      ChoiceModel(
+        text: "Investigate the sound",
+        hint: "Could be an animal",
+        destinationID: "animal_encounter"
+      ),
+      ChoiceModel(
+        text: "Give up",
+        hint: "Stay focused on the goal",
+        destinationID: "start"
+      ),
+    ],
+    type: .ending
+  )
+  let mockViewModel = GamePlayViewModel(
+    initalStoryID: "start",
+    stories: ["start": mockNode, "jungle_path": mockNode2]
+  )
+  GamePlayView(viewModel: mockViewModel)
 }
 
 // Helper wrapper to inject the mock view model
 struct GamePlayView_PreviewWrapper: View {
-    @StateObject var viewModel: GamePlayViewModel
-    var body: some View {
-        GamePlayView(viewModel: viewModel)
-    }
+  @StateObject var viewModel: GamePlayViewModel
+  var body: some View {
+    GamePlayView(viewModel: viewModel)
+  }
 }

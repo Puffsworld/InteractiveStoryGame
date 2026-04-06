@@ -71,4 +71,3 @@ We have enabled dynamic data loading for the homepage, transitioning from hardco
 ### Features
 - [ ] **Real Story Content**: Create distinct JSON files for different stories (currently all point to `storyExample`).
 - [ ] **Progress Persistence**: Implement saving/loading of story progress (currently not persisted).
-- [ ] **GamePlay Animation**: Implement a smooth animation when the user clicks on any choice button and move to the next scene.
