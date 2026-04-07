@@ -30,59 +30,102 @@ struct GamePlayView: View {
         ProgressView("Loading story...")
       } else {
         if let node = viewModel.currentStoryModel {
-          VStack(spacing: 20) {
-            if let imageName = node.imageName, !imageName.isEmpty {
-              Image(imageName)
-                .resizable()
-                .scaledToFit()
-                .frame(height: 200)
-                .cornerRadius(10)
-                .padding()
-                // MARK: - Image Transition
-                // Cross Dissolve: 0.8s easeInOut
-                .id(node.id + "_img")
-                .transition(.opacity.animation(.easeInOut(duration: 0.8)))
-            }  // #Image
+          ZStack {
+            // 1. Immersive black background
+            // TODO: make it suitable to the system theme
+            Color.black.ignoresSafeArea()
 
-            Text(node.storyText)
-              .padding()
-              // MARK: - Text Transition
-              // Insertion: Slide Up + Fade In (0.5s duration, 0.2s delay)
-              // Removal: Instant Fade Out (0.1s duration, no delay) -> Prevents overlap
-              .id(node.id + "_txt")
-              .transition(
-                .asymmetric(
-                  insertion: .slideUpFadeIn.animation(
-                    .easeOut(duration: 0.5).delay(0.2)),
-                  removal: .opacity.animation(.easeOut(duration: 0.1))
-                )
-              )
+            GeometryReader { proxy in
+              VStack(spacing: 0) {
+                // Zone A: Narrative Canvas (75%)
+                VStack {
+                  Spacer()  // Optical centering top
 
-            ChoiceView(
-              choices: node.choices,
-              onChoiceSelected: { choice in
-                // Trigger animations when state changes
-                withAnimation {
-                  viewModel.makeChoice(choice)
+                  if let imageName = node.imageName,
+                    !imageName.isEmpty
+                  {
+                    Image(imageName)
+                      .resizable()
+                      .scaledToFill()
+                      .frame(
+                        maxHeight: proxy.size.height
+                          * 0.5
+                      )
+                      .ignoresSafeArea(edges: .top)  // Bleed into notch
+                      .mask(
+                        LinearGradient(
+                          colors: [
+                            .black, .black, .black,
+                            .clear,
+                          ],
+                          startPoint: .top,
+                          endPoint: .bottom
+                        )
+                      )
+                      .id(node.id + "_img")
+                      .transition(
+                        .opacity.animation(
+                          .easeInOut(duration: 0.8)
+                        )
+                      )
+
+                  }
+
+                  Spacer().frame(height: 48)
+                  Text(node.storyText)
+                    .padding(.horizontal, 24)
+                    .font(
+                      .system(size: 22, weight: .medium, design: .serif)
+                    )
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                    .lineSpacing(6)  // Premium line height
+                    .minimumScaleFactor(18.0 / 22.0)
+                    .lineLimit(nil)
+                    .id(node.id + "_txt")
+                    .transition(
+                      .asymmetric(
+                        insertion: .slideUpFadeIn
+                          .animation(
+                            .easeOut(duration: 0.5)
+                              .delay(0.2)
+                          ),
+                        removal: .opacity.animation(
+                          .easeOut(duration: 0.1)
+                        )
+                      )
+                    )
+
+                  Spacer()  // Optical centering bottom
                 }
-              },
-              resetGame: {
-                withAnimation {
-                  viewModel.resetGame()
+                .frame(height: proxy.size.height * 0.75)
+
+                // Zone B: Interaction Deck (25%)
+                VStack {
+                  ChoiceView(
+                    choices: node.choices,
+                    onChoiceSelected: { choice in
+                      withAnimation {
+                        viewModel.makeChoice(choice)
+                      }
+                    },
+                    resetGame: {
+                      withAnimation {
+                        viewModel.resetGame()
+                      }
+                    },
+                    type: node.type
+                  )
                 }
-              },
-              type: node.type
-            )  // #ChoiceView
+                .frame(height: proxy.size.height * 0.25)
+              }
+            }
           }
         }
       }
     }
     .onDisappear {
-      // No animation needed for disappear logic
       viewModel.resetGame()
-      // Debugging
-      print("GamePlayView disappeared, game reset.")
-      print("Path history of the Game play: \(viewModel.pathHistory)")
     }
   }
 }
@@ -93,7 +136,7 @@ struct GamePlayView: View {
     loggingID: "mock_start",
     storyText:
       "You stand at the entrance of the jungle, map in hand. The lost treasure awaits. What will you do?",
-    imageName: "jungle_entrance",
+    imageName: "asteroid_field",
     choices: [
       ChoiceModel(
         text: "Enter the jungle",

@@ -7,6 +7,26 @@
 
 import SwiftUI
 
+struct GamePlayButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(.system(size: 18, weight: .semibold)) // Bold text for better glass contrast
+            .foregroundColor(.white)
+            .frame(maxWidth: .infinity) // Make text fill width
+            .frame(height: 56) // Exact height from your spec
+            .background(.ultraThinMaterial) // The glass effect
+            .clipShape(Capsule()) // The pill shape
+            .overlay(
+                // The "Glass Edge" that catches light
+                Capsule()
+                    .stroke(.white.opacity(0.15), lineWidth: 0.5)
+            )
+            .scaleEffect(configuration.isPressed ? 0.96 : 1.0) // Scale the whole pill!
+            .animation(.easeOut(duration: 0.15), value: configuration.isPressed)
+    }
+}
+
+
 struct StoryChoiceButton: View {
     let model: StoryChoiceButtonModel
     @State private var isHovering: Bool = false
@@ -19,13 +39,9 @@ struct StoryChoiceButton: View {
         ZStack {
             Button(action: model.action) {
                 Text(model.text)
-                    .font(.system(size: 18, weight: .medium))
-                    .foregroundColor(.white)
-                    .padding(EdgeInsets(top: 12, leading: 24, bottom: 12, trailing: 24))
-                    .background(model.backgroundColor)
-                    .cornerRadius(model.conerRadius ?? 8)
-                    .hoverEffect(.lift)
             }
+            .buttonStyle(GamePlayButtonStyle())
+            .padding(.horizontal, 24) // Added padding from spec for full-bleed feel
             .onHover { hovering in
                 isHovering = hovering
             }

@@ -32,7 +32,7 @@ struct ChoiceView: View {
     var body: some View {
         switch type {
         case .standard:
-            VStack(spacing: 12) {
+            VStack(spacing: 20) {
                 ForEach(choices) { choice in
                     StoryChoiceButton(
                         model: StoryChoiceButtonModel(
@@ -48,23 +48,21 @@ struct ChoiceView: View {
         case .ending:
             VStack(spacing: 20) {
 
-                StartPageButton(
-                    model: StartPageButtonModel(
-                        name: "Restart Game",
+                StoryChoiceButton(
+                    model: StoryChoiceButtonModel(
+                        text: "Restart Game",
+                        hint: nil,
                         action: { resetGame() },
-                        cornerRadius: 10
                     )
                 )
-
-                StartPageButton(
-                    model: StartPageButtonModel(
-                        name: "Return to Home",
+                StoryChoiceButton(
+                    model: StoryChoiceButtonModel(
+                        text: "Return to Home",
+                        hint: nil,
                         action: { dismiss() },
-                        cornerRadius: 10
                     )
                 )
             }
-            .padding()
         }
     }
 }
