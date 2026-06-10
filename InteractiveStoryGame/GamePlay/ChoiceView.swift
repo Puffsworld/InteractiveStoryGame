@@ -32,7 +32,7 @@ struct ChoiceView: View {
     var body: some View {
         switch type {
         case .standard:
-            VStack(spacing: 20) {
+            VStack(spacing: 12) {
                 ForEach(choices) { choice in
                     StoryChoiceButton(
                         model: StoryChoiceButtonModel(
@@ -46,7 +46,7 @@ struct ChoiceView: View {
                 }
             }
         case .ending:
-            VStack(spacing: 20) {
+            VStack(spacing: 12) {
 
                 StoryChoiceButton(
                     model: StoryChoiceButtonModel(
